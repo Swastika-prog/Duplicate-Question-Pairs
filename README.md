@@ -1,17 +1,12 @@
 # Duplicate Question Pair Detection
-
 A machine learning system that detects whether two questions are semantically duplicate, implemented using a hybrid feature pipeline and deployed via a FastAPI backend with a Streamlit frontend.
-
 ---
-
 ## Problem Statement
 Online Q&A platforms often contain multiple questions that ask the same thing using different wording.  
 Identifying duplicate questions helps reduce redundancy, improve answer quality, and enhance user experience.
 
 This project aims to automatically determine whether two questions convey the same meaning.
-
 ---
-
 ## Architecture
 The project follows a clean, production-style separation of concerns:
 
@@ -23,13 +18,10 @@ The project follows a clean, production-style separation of concerns:
 High-level flow:
 User → Streamlit Frontend → FastAPI Backend → ML Models
 
-yaml
-Copy code
-
 ---
 
 ## Project Structure
-
+```
 DUPLICATE-QUESTION/
 │
 ├── artifacts/ # Trained ML models & vectorizers
@@ -53,14 +45,9 @@ DUPLICATE-QUESTION/
 ├── requirements.txt
 ├── .gitignore
 └── README.md
-
-yaml
-Copy code
-
+```
 ---
-
 ## Feature Engineering & Models
-
 ### Feature Engineering
 The model uses a hybrid feature representation that combines semantic and lexical similarity:
 
@@ -86,81 +73,106 @@ The model uses a hybrid feature representation that combines semantic and lexica
 ## API Contract
 
 ### Endpoint
+```
 POST /predict
-
-bash
-Copy code
-
+```
 ### Request Body
-```json
+```
 {
   "question1": "Which city is the capital of France?",
   "question2": "What is the capital of France?",
   "model": "svm"
 }
+```
 Response (SVM)
-json
-Copy code
+```
 {
   "model": "SVM",
   "is_duplicate": 1
 }
+```
 Response (XGBoost)
-json
-Copy code
+```
 {
   "model": "XGBoost",
   "is_duplicate": 1,
   "confidence": 0.94
 }
+```
 How to Run
 1. Install dependencies
-bash
-Copy code
+```
 pip install -r requirements.txt
+```
 2. Start the backend (FastAPI)
-bash
-Copy code
+```
 uvicorn backend.app:app --reload
+```
 API documentation will be available at:
-
-arduino
-Copy code
+```
 http://127.0.0.1:8000/docs
+```
 3. Start the frontend (Streamlit)
-bash
-Copy code
+```
 streamlit run frontend/app.py
+```
 Example Output
+
 Input:
-
+```
 Which city is the capital of France?
-
 What is the capital of France?
-
+```
 Output:
+```
+Duplicate
+```
+---
 
-Copy code
-✔ Duplicate
-Engineering Highlights
-Strict separation of training, inference, and UI layers
+## Features
 
-Complete feature recreation during inference to avoid feature drift
+- Duplicate question detection using semantic similarity
+- Hybrid feature engineering pipeline
+- SVM for fast inference
+- XGBoost with probability confidence
+- RESTful FastAPI backend
+- Interactive Streamlit UI
+- Modular and scalable architecture
 
-Clear API contract enforced via Pydantic
+---
 
-Clean, industry-aligned project structure
+## Feature Engineering & Models
 
-Fully reproducible inference pipeline using serialized artifacts
+### Feature Engineering
+- TF-IDF vectors for both questions
+- Lexical overlap features
+- Fuzzy string similarity metrics
+- Cosine similarity between TF-IDF vectors
 
-Future Improvements
-Dockerize backend and frontend
+### Models
+- Linear SVM
+- XGBoost Classifier
 
-Add CI checks for API contract validation
+---
 
-Deploy backend to a cloud platform
+## Tech Stack
 
-Calibrate model confidence scores
+- Python
+- NumPy, Pandas
+- Scikit-learn
+- XGBoost
+- FastAPI
+- Streamlit
+
+---
+
+## Future Improvements
+- Dockerization
+- CI/CD pipeline
+- Cloud deployment
+- Model calibration
+- Real-time inference API
+---
 
 
 
