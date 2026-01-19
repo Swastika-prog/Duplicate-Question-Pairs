@@ -4,7 +4,7 @@ import requests
 # --------------------------------------------------
 # CONFIG
 # --------------------------------------------------
-API_URL = "http://127.0.0.1:8000/predict"
+API_URL = "https://duplicate-question-pairs-quoradataset.onrender.com/predict"
 
 st.set_page_config(
     page_title="Duplicate Question Detector",
