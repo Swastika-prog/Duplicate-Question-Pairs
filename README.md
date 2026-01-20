@@ -5,11 +5,11 @@ The system is built using FastAPI for the backend and Streamlit for the frontend
 ## Live Deployment
 - 🔗 **Frontend (Streamlit App):**
   ```
-  https://duplicate-question-pairs-quora.streamlit.app/
+  https://duplicate-questions-quora.streamlit.app/
   ```
 - 🔗 **Backend API (FastAPI):**
   ```
-  https://duplicate-question-pairs-quora.onrender.com/docs
+  https://duplicate-question-pairs-quoradataset.onrender.com/docs
   ```
 
 The Streamlit frontend communicates with a FastAPI backend deployed on Render,
