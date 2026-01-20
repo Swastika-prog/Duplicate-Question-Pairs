@@ -1,183 +1,104 @@
-# Duplicate Question Pair Detection
-A machine learning system that detects whether two questions are semantically duplicate, implemented using a hybrid feature pipeline and deployed via a FastAPI backend with a Streamlit frontend.
+# Duplicate Question Pairs Detection
+A Machine Learning–based application that detects whether two questions are semantically duplicate using Natural Language Processing (NLP) techniques.  
+The system is built using FastAPI for the backend and Streamlit for the frontend, forming an end-to-end ML deployment pipeline.
+
+## Live Deployment
+- 🔗 **Frontend (Streamlit App):**
+  ```
+  https://duplicate-question-pairs-quora.streamlit.app/
+  ```
+- 🔗 **Backend API (FastAPI):**
+  ```
+  https://duplicate-question-pairs-quora.onrender.com/docs
+  ```
+
+The Streamlit frontend communicates with a FastAPI backend deployed on Render,
+forming a production-style ML inference pipeline.
 ---
-## Problem Statement
-Online Q&A platforms often contain multiple questions that ask the same thing using different wording.  
-Identifying duplicate questions helps reduce redundancy, improve answer quality, and enhance user experience.
 
-This project aims to automatically determine whether two questions convey the same meaning.
----
-## Architecture
-The project follows a clean, production-style separation of concerns:
+## About the Project
+This project demonstrates how an NLP-based Machine Learning model can be deployed as a REST API and accessed through a simple web interface.  
+It focuses on semantic similarity detection using TF-IDF vectorization and cosine similarity to identify redundant or duplicate questions commonly found on Q&A platforms.
 
-- Model training and experimentation are done in notebooks
-- Inference and feature recreation are handled by a FastAPI backend
-- User interaction is provided through a Streamlit frontend
-- Trained models are stored as serialized artifacts
-
-High-level flow:
-User → Streamlit Frontend → FastAPI Backend → ML Models
-
----
+## Features
+- Duplicate question detection using NLP techniques  
+- TF-IDF vectorization for text representation  
+- Feature-based semantic similarity using TF-IDF and fuzzy matching  
+- Supervised classification using SVM and XGBoost  
+- FastAPI backend for real-time inference  
+- Streamlit-based interactive frontend  
+- Model and vectorizer loading using saved artifacts (.pkl)  
+- Clean and modular project structure
+  
+## Tech Stack
+- **Language:** Python  
+- **Machine Learning:** Scikit-learn  
+- **NLP:** TF-IDF, Cosine Similarity  
+- **Backend:** FastAPI  
+- **Frontend:** Streamlit  
+- **Data Processing:** Pandas, NumPy  
 
 ## Project Structure
 ```
-DUPLICATE-QUESTION/
+Duplicate-Question-Pairs/
 │
-├── artifacts/ # Trained ML models & vectorizers
-│ ├── tfidf_q1.pkl
-│ ├── tfidf_q2.pkl
-│ ├── svm_model.pkl
-│ └── xgb_model.pkl
+├── backend/
+│   └── app.py                  (FastAPI backend)
 │
-├── backend/ # Inference service
-│ └── app.py # FastAPI application
+├── frontend/
+│   └── streamlit_app.py        (Streamlit frontend)
 │
-├── frontend/ # User interface
-│ └── app.py # Streamlit application
+├── data/
+│   └── train.csv               (Training dataset)
 │
-├── data/ # Dataset
-│ └── train.csv
-│
-├── notebooks/ # Experiments & training
-│ └── model3.ipynb
-│
-├── requirements.txt
-├── .gitignore
-└── README.md
+├── model.ipynb                 (Model training notebook)
+├── model.pkl                   (Trained similarity model)
+├── tfidf.pkl                   (TF-IDF vectorizer)
+├── threshold.pkl               (Similarity threshold)
+├── requirements.txt            (Project dependencies)
+└── .gitignore
 ```
----
-## Feature Engineering & Models
-### Feature Engineering
-The model uses a hybrid feature representation that combines semantic and lexical similarity:
+## How to Run the Project
 
-- TF-IDF vectors for Question 1
-- TF-IDF vectors for Question 2
-- Lexical overlap features
-  - common word count
-  - word overlap ratio
-  - length difference
-- Fuzzy string similarity metrics
-  - QRatio
-  - Partial Ratio
-  - Token Sort Ratio
-  - Token Set Ratio
-- Cosine similarity between TF-IDF vectors
-
-### Models Used
-- Linear SVM (fast and strong baseline)
-- XGBoost Classifier (with probability estimates)
-
----
-
-## API Contract
-
-### Endpoint
-```
-POST /predict
-```
-### Request Body
-```
-{
-  "question1": "Which city is the capital of France?",
-  "question2": "What is the capital of France?",
-  "model": "svm"
-}
-```
-Response (SVM)
-```
-{
-  "model": "SVM",
-  "is_duplicate": 1
-}
-```
-Response (XGBoost)
-```
-{
-  "model": "XGBoost",
-  "is_duplicate": 1,
-  "confidence": 0.94
-}
-```
-How to Run
-1. Install dependencies
-```
+### Step 1: Install dependencies
+```bash
 pip install -r requirements.txt
 ```
-2. Start the backend (FastAPI)
-```
+
+### Step 2: Start the FastAPI backend
+```bash
 uvicorn backend.app:app --reload
 ```
-API documentation will be available at:
+
+#### Backend URL
+```
+http://127.0.0.1:8000
+```
+
+#### Swagger UI
 ```
 http://127.0.0.1:8000/docs
 ```
-3. Start the frontend (Streamlit)
+
+### Step 3: Run the Streamlit frontend
+```bash
+streamlit run frontend/streamlit_app.py
 ```
-streamlit run frontend/app.py
-```
-Example Output
 
-Input:
-```
-Which city is the capital of France?
-What is the capital of France?
-```
-Output:
-```
-Duplicate
-```
----
-
-## Features
-
-- Duplicate question detection using semantic similarity
-- Hybrid feature engineering pipeline
-- SVM for fast inference
-- XGBoost with probability confidence
-- RESTful FastAPI backend
-- Interactive Streamlit UI
-- Modular and scalable architecture
-
----
-
-## Feature Engineering & Models
-
-### Feature Engineering
-- TF-IDF vectors for both questions
-- Lexical overlap features
-- Fuzzy string similarity metrics
-- Cosine similarity between TF-IDF vectors
-
-### Models
-- Linear SVM
-- XGBoost Classifier
-
----
-
-## Tech Stack
-
-- Python
-- NumPy, Pandas
-- Scikit-learn
-- XGBoost
-- FastAPI
-- Streamlit
-
----
-
-## Future Improvements
-- Dockerization
-- CI/CD pipeline
-- Cloud deployment
-- Model calibration
-- Real-time inference API
----
+## API Endpoints
+### POST `/predict`
+Predicts whether two input questions are duplicate or not.
 
 
+## Dataset
+The dataset consists of question pairs used to train a semantic similarity model.  
+It enables the system to learn linguistic patterns and contextual similarity between questions.
 
+## Purpose
+This project is intended for learning and demonstrating:
 
-
-
-
-
+- NLP-based semantic similarity techniques  
+- Machine Learning model deployment  
+- REST API development using FastAPI  
+- Frontend–backend integration with Streamlit  
+- End-to-end ML project structuring and deployment
